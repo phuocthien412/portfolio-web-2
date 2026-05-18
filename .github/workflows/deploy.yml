@@ -1,0 +1,51 @@
+name: Deploy Portfolio to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  # Cho phép chạy thủ công từ tab Actions
+  workflow_dispatch:
+
+# Cấp quyền ghi lên GitHub Pages
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    name: Build & Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: portfolio-inner-site/package-lock.json
+
+      - name: Install dependencies
+        working-directory: portfolio-inner-site
+        run: npm ci
+
+      - name: Build project
+        working-directory: portfolio-inner-site
+        env:
+          REACT_APP_SITE_NAME: ${{ secrets.REACT_APP_SITE_NAME }}
+          REACT_APP_EMAIL: ${{ secrets.REACT_APP_EMAIL }}
+          REACT_APP_GITHUB_URL: ${{ secrets.REACT_APP_GITHUB_URL }}
+          REACT_APP_LINKEDIN_URL: ${{ secrets.REACT_APP_LINKEDIN_URL }}
+          # Đặt PUBLIC_URL nếu deploy lên subdirectory (ví dụ: /portfolio-web-2)
+          # PUBLIC_URL: /portfolio-web-2
+        run: npm run build
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: portfolio-inner-site/build
+          # Tên branch để deploy (mặc định: gh-pages)
+          publish_branch: gh-pages
