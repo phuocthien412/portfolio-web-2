@@ -7,13 +7,20 @@ on:
   # Cho phép chạy thủ công từ tab Actions
   workflow_dispatch:
 
-# Cấp quyền ghi lên GitHub Pages
+# Cấp quyền để deploy lên GitHub Pages
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
+
+# Chỉ cho phép 1 deployment chạy cùng lúc
+concurrency:
+  group: 'pages'
+  cancel-in-progress: true
 
 jobs:
-  build-and-deploy:
-    name: Build & Deploy
+  build:
+    name: Build
     runs-on: ubuntu-latest
 
     steps:
@@ -38,14 +45,26 @@ jobs:
           REACT_APP_EMAIL: ${{ secrets.REACT_APP_EMAIL }}
           REACT_APP_GITHUB_URL: ${{ secrets.REACT_APP_GITHUB_URL }}
           REACT_APP_LINKEDIN_URL: ${{ secrets.REACT_APP_LINKEDIN_URL }}
-          # Đặt PUBLIC_URL nếu deploy lên subdirectory (ví dụ: /portfolio-web-2)
-          # PUBLIC_URL: /portfolio-web-2
         run: npm run build
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: portfolio-inner-site/build
-          # Tên branch để deploy (mặc định: gh-pages)
-          publish_branch: gh-pages
+          path: portfolio-inner-site/build
+
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
