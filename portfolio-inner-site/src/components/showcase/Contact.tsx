@@ -143,62 +143,66 @@ const Contact: React.FC<ContactProps> = (props) => {
                 </p>
 
                 <div style={styles.form}>
-                    <label>
-                        <p>
-                            {!name && <span style={styles.star}>*</span>}
-                            <b>Your name:</b>
-                        </p>
-                    </label>
-                    <input
-                        style={styles.formItem}
-                        type="text"
-                        name="name"
-                        placeholder="Name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                    />
-                    <label>
-                        <p>
-                            {!validateEmail(email) && (
-                                <span style={styles.star}>*</span>
-                            )}
-                            <b>Email:</b>
-                        </p>
-                    </label>
-                    <input
-                        style={styles.formItem}
-                        type="email"
-                        name="email"
-                        placeholder="Email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                    <label>
-                        <p>
-                            <b>Company (optional):</b>
-                        </p>
-                    </label>
-                    <input
-                        style={styles.formItem}
-                        type="company"
-                        name="company"
-                        placeholder="Company"
-                        value={company}
-                        onChange={(e) => setCompany(e.target.value)}
-                    />
-                    <label>
-                        <p>
-                            {!message && <span style={styles.star}>*</span>}
-                            <b>Message:</b>
-                        </p>
-                    </label>
-                    <textarea
-                        name="message"
-                        placeholder="Message"
-                        style={styles.formItem}
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                    />
+                    {false && (
+                        <>
+                            <label>
+                                <p>
+                                    {!name && <span style={styles.star}>*</span>}
+                                    <b>Your name:</b>
+                                </p>
+                            </label>
+                            <input
+                                style={styles.formItem}
+                                type="text"
+                                name="name"
+                                placeholder="Name"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                            />
+                            <label>
+                                <p>
+                                    {!validateEmail(email) && (
+                                        <span style={styles.star}>*</span>
+                                    )}
+                                    <b>Email:</b>
+                                </p>
+                            </label>
+                            <input
+                                style={styles.formItem}
+                                type="email"
+                                name="email"
+                                placeholder="Email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
+                            <label>
+                                <p>
+                                    <b>Company (optional):</b>
+                                </p>
+                            </label>
+                            <input
+                                style={styles.formItem}
+                                type="company"
+                                name="company"
+                                placeholder="Company"
+                                value={company}
+                                onChange={(e) => setCompany(e.target.value)}
+                            />
+                            <label>
+                                <p>
+                                    {!message && <span style={styles.star}>*</span>}
+                                    <b>Message:</b>
+                                </p>
+                            </label>
+                            <textarea
+                                name="message"
+                                placeholder="Message"
+                                style={styles.formItem}
+                                value={message}
+                                onChange={(e) => setMessage(e.target.value)}
+                            />
+                        </>
+                    )}
                     <div style={styles.buttons}>
                         <button
                             className="site-button"
