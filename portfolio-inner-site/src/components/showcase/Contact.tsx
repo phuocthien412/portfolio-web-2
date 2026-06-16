@@ -203,49 +203,51 @@ const Contact: React.FC<ContactProps> = (props) => {
                             />
                         </>
                     )}
-                    <div style={styles.buttons}>
-                        <button
-                            className="site-button"
-                            style={styles.button}
-                            type="submit"
-                            disabled={!isFormValid || isLoading}
-                            onMouseDown={submitForm}
-                        >
-                            {!isLoading ? (
-                                'Send Message'
-                            ) : (
-                                <p className="loading">Sending</p>
-                            )}
-                        </button>
-                        <div style={styles.formInfo}>
-                            <p
-                                style={Object.assign(
-                                    {},
-                                    { color: formMessageColor }
-                                )}
+                    {false && (
+                        <div style={styles.buttons}>
+                            <button
+                                className="site-button"
+                                style={styles.button}
+                                type="submit"
+                                disabled={!isFormValid || isLoading}
+                                onMouseDown={submitForm}
                             >
-                                <b>
-                                    <sub>
-                                        {formMessage
-                                            ? `${formMessage}`
-                                            : ' All messages get forwarded straight to my personal email'}
-                                    </sub>
-                                </b>
-                            </p>
-                            <p>
-                                <sub>
-                                    {!isFormValid ? (
-                                        <span>
-                                            <b style={styles.star}>*</b> =
-                                            required
-                                        </span>
-                                    ) : (
-                                        '\xa0'
+                                {!isLoading ? (
+                                    'Send Message'
+                                ) : (
+                                    <p className="loading">Sending</p>
+                                )}
+                            </button>
+                            <div style={styles.formInfo}>
+                                <p
+                                    style={Object.assign(
+                                        {},
+                                        { color: formMessageColor }
                                     )}
-                                </sub>
-                            </p>
+                                >
+                                    <b>
+                                        <sub>
+                                            {formMessage
+                                                ? `${formMessage}`
+                                                : ' All messages get forwarded straight to my personal email'}
+                                        </sub>
+                                    </b>
+                                </p>
+                                <p>
+                                    <sub>
+                                        {!isFormValid ? (
+                                            <span>
+                                                <b style={styles.star}>*</b> =
+                                                required
+                                            </span>
+                                        ) : (
+                                            '\xa0'
+                                        )}
+                                    </sub>
+                                </p>
+                            </div>
                         </div>
-                    </div>
+                    )}
                 </div>
             </div>
             <ResumeDownload altText="Need a copy of my Resume?" />
